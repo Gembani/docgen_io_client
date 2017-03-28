@@ -1,10 +1,10 @@
 # DocgenIoClient
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/docgen_io_client`. To experiment with that code, run `bin/console` for an interactive prompt.
+A client for consuming `api.docgen.io` check out the API documentation here `api.docgen.io/docs`
 
-TODO: Delete this and the text above, and describe your gem
 
-## Installation
+
+## Installation (Not published yet)
 
 Add this line to your application's Gemfile:
 
@@ -20,22 +20,29 @@ Or install it yourself as:
 
     $ gem install docgen_io_client
 
+The gem expects an environment variable called `DOCGEN_API_KEY` with the api_key
+
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+  document = DocgenIoClient::Document.new
+  document.texfile = "contents <% field_name %> of a tex file"
+  document.save
 
-## Development
+  render =  DocgenIoClient::Render.new
+  render.field_values = [{name: "field_name", value:"asdfasdfasdfadsf"}]
+  render.save
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+  compile =  DocgenIoClient::Compile.new
+  compile.render = render
+  compile.save
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/docgen_io_client.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nicholasjstock/docgen_io_client.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-

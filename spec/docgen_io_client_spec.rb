@@ -40,9 +40,7 @@ RSpec.describe DocgenIoClient do
     begin
 
     document = DocgenIoClient::Document.find(45)
-    byebug
-    document.renders.first.document
-    byebug
+    document.renders.first.field_values
     #
     # compile = DocgenIoClient::Compile.new
     # compile.render = render
@@ -54,7 +52,6 @@ RSpec.describe DocgenIoClient do
 
     puts "hello"
     rescue RestClient::ExceptionWithResponse => e
-      byebug
       e.response.body
     end
 

@@ -59,11 +59,11 @@ module DocgenIoClient
     def attribute_methods
       class_attribute_keys.each do |key, data|
           create_method(key) do
-            return @payload[:attributes][key]
+            return @payload[:attributes][key.to_s.dasherize.to_sym]
           end
 
           create_method("#{key}=") do |value|
-            @payload[:attributes][key] = value
+            @payload[:attributes][key.to_s.dasherize.to_sym] = value
           end
       end
     end
