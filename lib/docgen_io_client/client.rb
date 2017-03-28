@@ -1,8 +1,14 @@
 module DocgenIoClient
   class Client
+    def self.api_key
+      ENV.fetch('DOCGEN_API_KEY').freeze
+    end
+    def self.base_url
+      ENV['DOCGEN_BASE_URL'] || 'http://api.docgen.io'
+    end
     def initialize()
-      @api_key =  ENV.fetch('DOCGEN_API_KEY').freeze
-      @base_url = ENV['DOCGEN_BASE_URL'] || 'http://api.docgen.io'
+      @api_key =  self.class.api_key
+      @base_url = self.class.base_url
     end
 
     def headers
