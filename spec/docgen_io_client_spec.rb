@@ -35,16 +35,15 @@ RSpec.describe DocgenIoClient do
   end
 
   it "create a document" do
-    client = DocgenIoClient::Client.new
-
+    document = DocgenIoClient::Document.new
     begin
+    document.texfile = "lol"
+    document.save
 
-    document = DocgenIoClient::Document.find(45)
-    document.renders.first.field_values
-    #
-    # compile = DocgenIoClient::Compile.new
-    # compile.render = render
-    # compile.save
+    render = DocgenIoClient::Render.new
+    render.field_values = {founders: [{ name: "Nick Stock"}, { name:"Thomas Stock"}]}
+    render.document = document
+    render.save
     #
     # resource = client.update(document)
     # document = client.find('documents', 2)

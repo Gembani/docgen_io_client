@@ -19,8 +19,14 @@ module DocgenIoClient
         }
     end
 
-    def find(resource, id, url = false)
+    def find(resource, id)
       response = RestClient.get("#{@base_url}/#{resource}/#{id}", headers)
+      json = JSON.parse(response, symbolize_names: true)
+      json
+    end
+
+    def all(resource)
+      response = RestClient.get("#{@base_url}/#{resource}", headers)
       json = JSON.parse(response, symbolize_names: true)
       json
     end

@@ -10,6 +10,22 @@ module DocgenIoClient
         client = Client.new
         self.send(:new, client.find(self.resource_type_name, id))
       end
+
+      def all()
+        client = Client.new
+        self.send(:new, client.all(self.resource_type_name))
+        array = client.all(self.resource_type_name)[:data]
+        array.map { |item|   self.send(:new, item) }
+
+      end
+      def create(payload)
+        resource = self.new()
+        payload.keys.each do |key|
+          resource.send("#{key}=", payload[key])
+        end
+        resource.save
+        resource
+      end
       def attributes(*args)
           self.attribute_keys = [] if self.attribute_keys.nil?
           self.attribute_keys = self.attribute_keys + args
@@ -70,7 +86,6 @@ module DocgenIoClient
 
     def initialize(config = {})
       @payload = config[:data] || {attributes: {}}
-      @base_url = 'http://localhost:3000'#ENV('DOCGEN_BASE_URL').freeze
 
       @relationships = Relationships.new
       has_one_methods
