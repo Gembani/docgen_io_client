@@ -30,7 +30,7 @@ The gem expects an environment variable called `DOCGEN_API_KEY` with the api_key
   document.save
 
   render =  DocgenIoClient::Render.new
-  render.field_values = [{name: "field_name", value:"asdfasdfasdfadsf"}]
+  render.field_values = [{field_name: "asdfasdfasdfadsf", conditional: false}]
   render.save
 
   compile =  DocgenIoClient::Compile.new
