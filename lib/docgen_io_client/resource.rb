@@ -53,7 +53,7 @@ module DocgenIoClient
     def has_one_methods
       (class_has_ones + class_has_manys).each do |key, data|
           create_method(key) do
-            if @relationships[key.to_s.dasherize].nil? && id
+            if @relationships[key.to_s.dasherize.to_sym].nil? && id
               client = Client.new
               response = RestClient.get("#{@payload[:relationships][key.to_s.dasherize.to_sym][:links][:related]}", client.headers)
               json = JSON.parse(response, symbolize_names: true)
