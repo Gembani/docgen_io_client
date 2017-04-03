@@ -1,6 +1,6 @@
 require 'open-uri'
 module DocgenIoClient
-  class Compile < Resource
+  class Document < Resource
     has_one :render
     resource_type :documents
     def pdf
