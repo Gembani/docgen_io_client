@@ -25,17 +25,18 @@ The gem expects an environment variable called `DOCGEN_API_KEY` with the api_key
 ## Usage
 
 ```ruby
-  document = DocgenIoClient::Document.new
-  document.texfile = "contents <% field_name %> of a tex file"
-  document.save
+  template  = DocgenIoClient::TemplateRender.new
+  template.texfile = "contents <% field_name %> of a tex file "
+  template.save
 
-  render =  DocgenIoClient::Render.new
+  template_render =  DocgenIoClient::TemplateRender.new
   render.field_values = [{field_name: "asdfasdfasdfadsf", conditional: false}]
   render.save
 
-  compile =  DocgenIoClient::Compile.new
-  compile.render = render
-  compile.save
+  document =  DocgenIoClient::Document.new
+  document.template_render = render
+  document.save
+  document.pdf # returns the generated PDF
 ```
 
 ## Contributing

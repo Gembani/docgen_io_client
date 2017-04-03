@@ -35,15 +35,15 @@ RSpec.describe DocgenIoClient do
   end
 
   it "create a document" do
-    document = DocgenIoClient::Document.new
+    template = DocgenIoClient::Template.new
     begin
-    document.texfile = "lol"
-    document.save
+    template.texfile = "lol"
+    template.save
 
-    render = DocgenIoClient::Render.new
-    render.field_values = {founders: [{ name: "Nick Stock"}, { name:"Thomas Stock"}]}
-    render.document = document
-    render.save
+    template_render = DocgenIoClient::TemplateRender.new
+    template_render.field_values = {founders: [{ name: "Nick Stock"}, { name:"Thomas Stock"}]}
+    template_render.template = template
+    template_render.save
     #
     # resource = client.update(document)
     # document = client.find('documents', 2)
@@ -51,6 +51,7 @@ RSpec.describe DocgenIoClient do
 
     puts "hello"
     rescue RestClient::ExceptionWithResponse => e
+      byebug
       e.response.body
     end
 

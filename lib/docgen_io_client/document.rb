@@ -1,8 +1,18 @@
+require 'open-uri'
 module DocgenIoClient
-  class Document < Resource
-    attributes :texfile, :title
+  class Compile < Resource
+    has_one :render
     resource_type :documents
-    has_many :renders
-  end
+    def pdf
+      open("#{Client.base_url}/compiles/#{id}/view/pdf?token=#{ENV.fetch('DOCGEN_API_KEY').freeze}")
+    end
 
+    def tex
+      open("#{Client.base_url}/compiles/#{id}/view/tex?token=#{ENV.fetch('DOCGEN_API_KEY').freeze}")
+    end
+
+    def log
+      open("#{Client.base_url}/compiles/#{id}/view/log?token=#{ENV.fetch('DOCGEN_API_KEY').freeze}")
+    end
+  end
 end
