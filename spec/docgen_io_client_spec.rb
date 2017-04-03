@@ -47,6 +47,9 @@ RSpec.describe DocgenIoClient do
     document = DocgenIoClient::Document.new
     document.template_render = template_render
     document.save
+    document =  DocgenIoClient::Document.find(document.id)
+    expect(document.template_render).not_to eq(nil)
+
     #
     # resource = client.update(document)
     # document = client.find('documents', 2)

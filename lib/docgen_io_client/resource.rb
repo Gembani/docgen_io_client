@@ -47,27 +47,27 @@ module DocgenIoClient
 
     def has_many_translate(data)
       data.map do |item|
-        Object.const_get("DocgenIoClient::#{item[:type].capitalize.to_s.singularize}").new(data: item)
+        Object.const_get("DocgenIoClient::#{item[:type].to_s.classify}").new(data: item)
       end
     end
     def has_one_methods
       (class_has_ones + class_has_manys).each do |key, data|
           create_method(key) do
-            if @relationships[key].nil? && id
+            if @relationships[key.to_s.dasherize].nil? && id
               client = Client.new
-              response = RestClient.get("#{@payload[:relationships][key][:links][:related]}", client.headers)
+              response = RestClient.get("#{@payload[:relationships][key.to_s.dasherize.to_sym][:links][:related]}", client.headers)
               json = JSON.parse(response, symbolize_names: true)
               if json[:data].class == Array
-                @relationships[key] = has_many_translate(json[:data])
+                @relationships[key.to_s.dasherize.to_sym] = has_many_translate(json[:data])
               else
-                @relationships[key] = Object.const_get("DocgenIoClient::#{key.capitalize.to_s.singularize}").new(json)
+                @relationships[key.to_s.dasherize.to_sym] = Object.const_get("DocgenIoClient::#{key.capitalize.to_s.classify}").new(json)
               end
             end
-            return @relationships[key]
+            return @relationships[key.to_s.dasherize.to_sym]
           end
 
           create_method("#{key}=") do |resource|
-            @relationships[key] = resource
+            @relationships[key.to_s.dasherize.to_sym] = resource
           end
       end
     end
