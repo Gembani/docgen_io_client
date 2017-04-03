@@ -1,7 +1,7 @@
 require "spec_helper"
 
 require 'dotenv/load'
-
+require 'byebug'
 # or
 require 'dotenv'
 Dotenv.load
@@ -44,6 +44,9 @@ RSpec.describe DocgenIoClient do
     template_render.field_values = {founders: [{ name: "Nick Stock"}, { name:"Thomas Stock"}]}
     template_render.template = template
     template_render.save
+    document = DocgenIoClient::Document.new
+    document.template_render = template_render
+    document.save
     #
     # resource = client.update(document)
     # document = client.find('documents', 2)

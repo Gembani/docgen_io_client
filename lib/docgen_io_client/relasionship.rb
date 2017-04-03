@@ -14,7 +14,7 @@ module DocgenIoClient
     end
     def to_json
       @data.keys.inject({}) do |total, key|
-        total[key] = data[key].to_related_payload
+        total[key.to_s.dasherize] = data[key].to_related_payload
         total
       end
     end
