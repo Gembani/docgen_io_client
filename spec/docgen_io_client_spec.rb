@@ -34,7 +34,7 @@ RSpec.describe DocgenIoClient do
     expect(data.payload[:attributes][:title]).to eq("new_title")
   end
 
-  it "create a document" do
+  it "create a template" do
     template = DocgenIoClient::Template.new
     begin
     template.texfile = "lol"
@@ -44,20 +44,15 @@ RSpec.describe DocgenIoClient do
     template_render.field_values = {founders: [{ name: "Nick Stock"}, { name:"Thomas Stock"}]}
     template_render.template = template
     template_render.save
-    document = DocgenIoClient::Document.new
-    document.template_render = template_render
-    document.save
-    document =  DocgenIoClient::Document.find(document.id)
-    expect(document.template_render).not_to eq(nil)
+    template_render.document
+    expect(template_render.document).not_to eq(nil)
 
     #
     # resource = client.update(document)
     # document = client.find('documents', 2)
 
 
-    puts "hello"
     rescue RestClient::ExceptionWithResponse => e
-      byebug
       e.response.body
     end
 
