@@ -37,11 +37,12 @@ RSpec.describe DocgenIoClient do
   it "create a template" do
     template = DocgenIoClient::Template.new
     begin
-    template.texfile = "lol"
+    template.texfile = "texfile<% company_name %>"
+    template.support_files = [{content: "support_file<% company_name %>", path: "support.tex"}]
     template.save
 
     template_render = DocgenIoClient::TemplateRender.new
-    template_render.field_values = {founders: [{ name: "Nick Stock"}, { name:"Thomas Stock"}]}
+    template_render.field_values = {company_name: "Nicks comapny"}
     template_render.template = template
     template_render.save
     template_render.document
