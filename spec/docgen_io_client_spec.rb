@@ -21,43 +21,26 @@ RSpec.describe DocgenIoClient do
     expect(DocgenIoClient::VERSION).not_to be nil
   end
 
-  xit "does something useful" do
-    data = DocgenIoClient::Resource.new(payload)
-    expect(data.title).to eq("this is the new title")
-    data.title = "new_title"
-    expect(data.payload[:attributes][:title]).to eq("new_title")
-  end
-
-  xit "asdafsd" do
-    data = DocgenIoClient::Resource.new(payload)
-    data.title = "new_title"
-    expect(data.payload[:attributes][:title]).to eq("new_title")
-  end
-
   it "create a template" do
     template = DocgenIoClient::Template.new
-    begin
-    template.texfile = "texfile<% company_name %>"
-    template.support_files = [{content: "support_file<% company_name %>", path: "support.tex"}]
+    template.tex_file = "texfile<% company_name %>"
+    template.other_files = [{content: "support_file<% company_name %>", path: "support.tex"}]
+    expect { template.save}.to_not raise_error
+  end
+
+  
+
+  it "create a template render" do
+    template = DocgenIoClient::Template.new
+    template.tex_file = "texfile<% company_name %>"
+    template.other_files = [{content: "support_file<% company_name %>", path: "support.tex"}]
     template.save
 
     template_render = DocgenIoClient::TemplateRender.new
-    template_render.field_values = {company_name: "Nicks comapny"}
+    template_render.params = {company_name: "Nicks comapny"}
     template_render.template = template
-    template_render.save
-    template_render.document
+    expect { template_render.save}.to_not raise_error
     expect(template_render.document).not_to eq(nil)
-
-    #
-    # resource = client.update(document)
-    # document = client.find('documents', 2)
-
-
-    rescue RestClient::ExceptionWithResponse => e
-      e.response.body
-    end
-
-    #document = client.find('documents', 2)
 
   end
 

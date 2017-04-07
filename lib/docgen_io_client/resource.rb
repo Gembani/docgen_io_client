@@ -5,7 +5,9 @@ module DocgenIoClient
       attr_accessor :resource_type_name
       attr_accessor :has_ones
       attr_accessor :has_manys
-
+      def resource_type_name
+        self.to_s.demodulize.pluralize.underscore
+      end
       def find(id)
         client = Client.new
         self.send(:new, client.find(self.resource_type_name, id))
@@ -40,9 +42,7 @@ module DocgenIoClient
           self.has_ones = self.has_ones + args
       end
 
-      def resource_type(resource_type)
-        @resource_type_name = resource_type
-      end
+
     end
 
     def has_many_translate(data)
@@ -53,21 +53,21 @@ module DocgenIoClient
     def has_one_methods
       (class_has_ones + class_has_manys).each do |key, data|
           create_method(key) do
-            if @relationships[key.to_s.dasherize.to_sym].nil? && id
+            if @relationships[key].nil? && id
               client = Client.new
-              response = RestClient.get("#{@payload[:relationships][key.to_s.dasherize.to_sym][:links][:related]}", client.headers)
+              response = RestClient.get("#{@payload[:relationships][key][:links][:related]}", client.headers)
               json = JSON.parse(response, symbolize_names: true)
               if json[:data].class == Array
-                @relationships[key.to_s.dasherize.to_sym] = has_many_translate(json[:data])
+                @relationships[key] = has_many_translate(json[:data])
               else
-                @relationships[key.to_s.dasherize.to_sym] = Object.const_get("DocgenIoClient::#{key.capitalize.to_s.classify}").new(json)
+                @relationships[key] = Object.const_get("DocgenIoClient::#{key.capitalize.to_s.classify}").new(json)
               end
             end
-            return @relationships[key.to_s.dasherize.to_sym]
+            return @relationships[key]
           end
 
           create_method("#{key}=") do |resource|
-            @relationships[key.to_s.dasherize.to_sym] = resource
+            @relationships[key] = resource
           end
       end
     end
@@ -75,11 +75,11 @@ module DocgenIoClient
     def attribute_methods
       class_attribute_keys.each do |key, data|
           create_method(key) do
-            return @payload[:attributes][key.to_s.dasherize.to_sym]
+            return @payload[:attributes][key]
           end
 
           create_method("#{key}=") do |value|
-            @payload[:attributes][key.to_s.dasherize.to_sym] = value
+            @payload[:attributes][key] = value
           end
       end
     end

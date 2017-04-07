@@ -3,7 +3,6 @@ module DocgenIoClient
   class Document < Resource
     has_one :template_render
     attributes :support_files
-    resource_type :documents
     def pdf
       open("#{Client.base_url}/documents/#{id}/view/pdf?token=#{ENV.fetch('DOCGEN_API_KEY').freeze}")
     end
