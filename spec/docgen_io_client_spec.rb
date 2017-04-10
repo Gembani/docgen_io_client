@@ -40,7 +40,10 @@ RSpec.describe DocgenIoClient do
     template_render.params = {company_name: "Nicks comapny"}
     template_render.template = template
     expect { template_render.save}.to_not raise_error
-    expect(template_render.document).not_to eq(nil)
+    expect(template_render.pdf).not_to eq(nil)
+    expect(template_render.log).not_to eq(nil)
+    expect(template_render.tex).not_to eq(nil)
+    expect { template_render.log_object}.to_not raise_error
 
   end
 

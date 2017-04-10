@@ -30,11 +30,16 @@ The gem expects an environment variable called `DOCGEN_API_KEY` with the api_key
   template.save
 
   template_render =  DocgenIoClient::TemplateRender.new
-  render.field_values = [{field_name: "asdfasdfasdfadsf", conditional: false}]
-  render.save
-  render.document.pdf # contains current pdf
-  render.document.tex # contains current tex file after templating
-  render.document.log # contains current log file of latex generation
+  template_render.field_values = [{field_name: "asdfasdfasdfadsf", conditional: false}]
+  template_render.save
+
+  template_render.pdf # contains the url of current pdf 
+  template_render.pdf_object # contains current pdf
+  template_render.tex # contains the url of  current tex file
+  template_render.tex_object # contains current tex file after templating
+
+  template_render.log # contains current log file of latex generation url
+  template_render.log_object # contains current tex file after templating
 
 
   # returns the generated PDF
