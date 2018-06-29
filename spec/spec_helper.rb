@@ -1,4 +1,5 @@
 require "bundler/setup"
+require "byebug"
 require "docgen_io_client"
 
 RSpec.configure do |config|

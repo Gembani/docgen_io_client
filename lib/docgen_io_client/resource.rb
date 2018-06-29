@@ -15,10 +15,8 @@ module DocgenIoClient
 
       def all()
         client = Client.new
-        self.send(:new, client.all(self.resource_type_name))
         array = client.all(self.resource_type_name)[:data]
-        array.map { |item|   self.send(:new, item) }
-
+        array.map { |item| self.send(:new, {data: item}) }
       end
       def create(payload)
         resource = self.new()
